@@ -1,4 +1,8 @@
-var { PARSE_MOUNT_LOCATION } = require("./constants");
+const {
+    PARSE_MOUNT_LOCATION,
+    PARSE_DASHBOARD_MOUNT_LOCATION
+} = require("./constants");
+
 const {
     PARSE_SERVER_URL,
     SERVER_PORT
@@ -12,7 +16,12 @@ function getParseUrl() {
     return `${getUrl()}${PARSE_MOUNT_LOCATION}`;
 }
 
+function getParseDashboardUrl() {
+    return `${getUrl()}${PARSE_DASHBOARD_MOUNT_LOCATION}`;
+}
+
 module.exports = {
     getUrl,
-    getParseUrl
+    getParseUrl,
+    getParseDashboardUrl
 }
