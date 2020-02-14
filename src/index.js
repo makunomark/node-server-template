@@ -50,7 +50,8 @@ var dashboard = new ParseDashboard({
   users: [
     {
       user: PARSE_DASHBOARD_AUTH_USER_1,
-      pass: PARSE_DASHBOARD_AUTH_PASS_1
+      pass: PARSE_DASHBOARD_AUTH_PASS_1,
+      apps: [{ appId: PARSE_APP_ID }]
     }
   ],
 });
