@@ -1,0 +1,16 @@
+{
+  "name": "np-server",
+  "version": "1.0.0",
+  "description": "Parse Dashboard and Server configured to work with Nalla.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "author": "Mark Makuno",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "parse-server": "^3.10.0"
+  }
+}
