@@ -12,18 +12,22 @@ const {
 } = process.env
 
 var express = require("express");
-var ParseServer = require("parse-server").ParseServer;
+var { default: ParseServer, ParseGraphQLServer } = require("parse-server");
 var ParseDashboard = require('parse-dashboard');
 
 var {
   PARSE_CLOUD_CODE,
   PARSE_MOUNT_LOCATION,
-  PARSE_DASHBOARD_MOUNT_LOCATION
+  PARSE_DASHBOARD_MOUNT_LOCATION,
+  PARSE_GRAPHQL_PATH,
+  PARSE_GRAPHQL_PLAYGROUNDPATH,
 } = require("./util/constants")
 
 var {
   getParseUrl,
-  getParseDashboardUrl
+  getParseDashboardUrl,
+  getGraphQLPath,
+  getPlaygroundPath
 } = require("./util/util")
 
 var app = express();
@@ -37,13 +41,22 @@ var api = new ParseServer({
   serverURL: getParseUrl()
 });
 
+var parseGraphQLServer = new ParseGraphQLServer(
+  api,
+  {
+    graphQLPath: PARSE_GRAPHQL_PATH,
+    playgroundPath: PARSE_GRAPHQL_PLAYGROUNDPATH,
+  }
+)
+
 var dashboard = new ParseDashboard({
   apps: [
     {
       serverURL: getParseUrl(),
       appId: PARSE_APP_ID,
       masterKey: PARSE_MASTER_KEY,
-      appName: PARSE_APP_NAME
+      appName: PARSE_APP_NAME,
+      graphQLServerURL: getGraphQLPath()
     }
   ],
   trustProxy: 1,
@@ -56,15 +69,17 @@ var dashboard = new ParseDashboard({
   ],
 });
 
-app.use(PARSE_MOUNT_LOCATION, api);
+app.use(PARSE_MOUNT_LOCATION, api.app);
 app.use(PARSE_DASHBOARD_MOUNT_LOCATION, dashboard);
+parseGraphQLServer.applyGraphQL(app)
 
 app.get("/", function (req, res) {
   res.send("I am healthy");
 })
 
-app.listen(1337, function () {
+app.listen(SERVER_PORT, function () {
   console.log(`np-server running on port ${SERVER_PORT}`);
   console.log(`access parse api on ${getParseUrl()}`);
   console.log(`access parse api on ${getParseDashboardUrl()}`);
+  console.log(`access parse graphql endpoint on ${getGraphQLPath()}`);
 });
