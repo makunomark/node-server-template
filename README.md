@@ -13,5 +13,5 @@ PARSE_DASHBOARD_AUTH_PASS_1=...
 SERVER_PORT=...
 ```
 
-- Configured with `parse-server`,`parse-dashboard`
+- Configured with `parse-server`,`parse-dashboard`, `parse-graphql-server`
 - Parse server configured to one user with access to the one parse app name
